@@ -274,57 +274,29 @@ This report is generated for forensic audit purposes.
                   </TabsList>
 
                   <TabsContent value="upload" className="mt-0">
-                    <div className="mb-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-blue-400 animate-pulse" />
-                        <span className="text-xs font-bold text-blue-300">Quick Test Samples:</span>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => loadSampleSignature("genuine")}
-                          className="h-7 text-xs font-semibold border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/20"
-                        >
-                          + Genuine Test
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => loadSampleSignature("forged")}
-                          className="h-7 text-xs font-semibold border-rose-500/40 text-rose-400 hover:bg-rose-500/20"
-                        >
-                          + Forged Test
-                        </Button>
-                        {isCompareMode && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={loadSampleReference}
-                            className="h-7 text-xs font-semibold border-blue-500/40 text-blue-400 hover:bg-blue-500/20"
-                          >
-                            + Reference Anchor
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-
                     <div className="grid gap-6 md:grid-cols-2">
                       <SignatureUpload
                         label="Verification Target (Suspect)"
-                        description="Primary image for threshold audit"
+                        description="Drop, browse or tap a dataset sample below"
                         onImageSelect={handleSignatureSelect}
                         preview={signaturePreview}
+                        sampleUrls={[
+                          { label: "Genuine Sample", url: "/samples/genuine-sample-1.png", filename: "original_1_1.png", color: "emerald" },
+                          { label: "Genuine Sample 2", url: "/samples/genuine-sample-2.png", filename: "original_1_2.png", color: "emerald" },
+                          { label: "Forged Sample", url: "/samples/forged-sample-1.png", filename: "forgeries_1_1.png", color: "rose" },
+                          { label: "Forged Sample 2", url: "/samples/forged-sample-2.png", filename: "forgeries_1_2.png", color: "rose" },
+                        ]}
                       />
                       {isCompareMode && (
                         <SignatureUpload
                           label="Master Reference (Genuine)"
-                          description="Gold-standard identity anchor"
+                          description="Gold-standard identity anchor — or tap a sample"
                           onImageSelect={handleReferenceSelect}
                           preview={referencePreview}
+                          sampleUrls={[
+                            { label: "Reference Anchor", url: "/samples/reference-sample.png", filename: "original_1_3.png", color: "blue" },
+                            { label: "Genuine Ref 2", url: "/samples/genuine-sample-2.png", filename: "original_1_2.png", color: "emerald" },
+                          ]}
                         />
                       )}
                     </div>
