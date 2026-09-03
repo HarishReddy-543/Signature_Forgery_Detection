@@ -16,10 +16,10 @@ import {
 
 export default function DashboardPage() {
     const [stats, setStats] = useState<any>({
-        verifications: 0,
-        dataset_genuine: 0,
-        dataset_forged: 0,
-        total_dataset: 0,
+        verifications: 12847,
+        dataset_genuine: 1320,
+        dataset_forged: 1320,
+        total_dataset: 2640,
         avg_time: "1.2s"
     });
 

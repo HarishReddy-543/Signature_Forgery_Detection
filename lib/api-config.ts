@@ -1,9 +1,10 @@
 /**
- * Centralized API configuration for VeriSign AI Backend
+ * Centralized API configuration for VeriSign AI
+ * Defaults to relative paths (/api/...) on Vercel or when NEXT_PUBLIC_API_URL is not set.
  */
 export function getApiUrl(endpoint: string = ""): string {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8090";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
   const cleanBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-  return endpoint ? `${cleanBase}${cleanEndpoint}` : cleanBase;
+  return cleanBase ? `${cleanBase}${cleanEndpoint}` : cleanEndpoint;
 }

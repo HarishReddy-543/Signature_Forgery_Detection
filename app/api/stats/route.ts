@@ -2,12 +2,20 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const stats = {
+    // Top-level fields expected by DashboardPage
+    verifications: 12847,
+    dataset_genuine: 1320,
+    dataset_forged: 1320,
+    total_dataset: 2640,
+    avg_time: "1.2s",
+
+    // Detailed metrics structure
     overview: {
       totalVerifications: 12847,
       genuineSignatures: 11234,
       forgedDetected: 1428,
       inconclusive: 185,
-      avgProcessingTime: 1.8,
+      avgProcessingTime: 1.2,
     },
     trends: {
       verificationsChange: 12.5,

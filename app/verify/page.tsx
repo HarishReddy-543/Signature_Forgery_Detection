@@ -54,6 +54,36 @@ export default function VerifyPage() {
     setDetails(null);
   };
 
+  const loadSampleSignature = async (type: "genuine" | "forged") => {
+    const samplePath = type === "genuine" ? "/samples/genuine-sample-1.png" : "/samples/forged-sample-1.png";
+    const filename = type === "genuine" ? "original_1_1.png" : "forgeries_1_1.png";
+    try {
+      const res = await fetch(samplePath);
+      const blob = await res.blob();
+      const file = new File([blob], filename, { type: "image/png" });
+      handleSignatureSelect(file, samplePath);
+      toast.success(`Loaded ${type === "genuine" ? "Genuine" : "Forged"} Test Signature`, {
+        description: "Click 'Initialize Analysis' below to run verification."
+      });
+    } catch (err) {
+      console.error("Failed to load sample signature:", err);
+      toast.error("Could not load sample signature");
+    }
+  };
+
+  const loadSampleReference = async () => {
+    const samplePath = "/samples/reference-sample.png";
+    try {
+      const res = await fetch(samplePath);
+      const blob = await res.blob();
+      const file = new File([blob], "original_1_3.png", { type: "image/png" });
+      handleReferenceSelect(file, samplePath);
+      toast.success("Loaded Genuine Reference Signature");
+    } catch (err) {
+      console.error("Failed to load reference signature:", err);
+    }
+  };
+
   const handleAnalyze = async () => {
     if (!signatureFile) return;
     if (isCompareMode && !referenceFile) {
@@ -244,6 +274,44 @@ This report is generated for forensic audit purposes.
                   </TabsList>
 
                   <TabsContent value="upload" className="mt-0">
+                    <div className="mb-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <Zap className="w-4 h-4 text-blue-400 animate-pulse" />
+                        <span className="text-xs font-bold text-blue-300">Quick Test Samples:</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => loadSampleSignature("genuine")}
+                          className="h-7 text-xs font-semibold border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/20"
+                        >
+                          + Genuine Test
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => loadSampleSignature("forged")}
+                          className="h-7 text-xs font-semibold border-rose-500/40 text-rose-400 hover:bg-rose-500/20"
+                        >
+                          + Forged Test
+                        </Button>
+                        {isCompareMode && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={loadSampleReference}
+                            className="h-7 text-xs font-semibold border-blue-500/40 text-blue-400 hover:bg-blue-500/20"
+                          >
+                            + Reference Anchor
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
                     <div className="grid gap-6 md:grid-cols-2">
                       <SignatureUpload
                         label="Verification Target (Suspect)"
