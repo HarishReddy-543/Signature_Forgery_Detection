@@ -12,9 +12,10 @@ import { SignatureHeatmap } from "@/components/verify/signature-heatmap";
 import { SignatureOverlay } from "@/components/verify/signature-overlay";
 import { ForensicFilters } from "@/components/verify/forensic-filters";
 import { BiometricCanvas } from "@/components/verify/biometric-canvas";
+import { DatasetBrowser } from "@/components/verify/dataset-browser";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Play, RotateCcw, Download, Share2, Loader2, Zap, Fingerprint, ShieldCheck } from "lucide-react";
+import { Play, RotateCcw, Download, Share2, Loader2, Zap, Fingerprint, ShieldCheck, Database } from "lucide-react";
 import { toast } from "sonner";
 
 import { getApiUrl } from "@/lib/api-config";
@@ -261,17 +262,33 @@ This report is generated for forensic audit purposes.
                   </div>
                 </div>
 
-                <Tabs defaultValue="upload" className="w-full">
-                  <TabsList className="bg-secondary/20 h-10 mb-4 p-1">
+                <Tabs defaultValue="dataset" className="w-full">
+                  <TabsList className="bg-secondary/20 h-10 mb-4 p-1 flex overflow-x-auto">
+                    <TabsTrigger value="dataset" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                      <Database className="w-3 h-3" />
+                      Dataset
+                    </TabsTrigger>
                     <TabsTrigger value="upload" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
                       <Play className="w-3 h-3" />
-                      Document Upload
+                      Upload
                     </TabsTrigger>
                     <TabsTrigger value="biometric" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
                       <Fingerprint className="w-3 h-3" />
-                      Biometric Capture
+                      Draw
                     </TabsTrigger>
                   </TabsList>
+
+                  <TabsContent value="dataset" className="mt-0">
+                    <DatasetBrowser
+                      onSelectSignature={(file, preview, type) => {
+                        handleSignatureSelect(file, preview);
+                        toast.success(`Loaded ${type === "genuine" ? "Genuine" : "Forged"} Signature`, {
+                          description: `${file.name} — tap "Initialize Analysis" to verify`
+                        });
+                      }}
+                      selectedFilename={signatureFile?.name || null}
+                    />
+                  </TabsContent>
 
                   <TabsContent value="upload" className="mt-0">
                     <div className="grid gap-6 md:grid-cols-2">
