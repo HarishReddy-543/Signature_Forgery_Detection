@@ -1,0 +1,15 @@
+# Vercel Ignore File
+# Exclude Python environments and backend files from Next.js serverless deployment
+
+.venv/
+.venv_new/
+__pycache__/
+backend/
+*.py
+*.log
+*.bat
+*.pth
+.git/
+node_modules/
+.next/
+scratch/
