@@ -1,70 +1,101 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import manifest from "@/lib/dataset-manifest.json";
+
+const CDN_BASE = "https://cdn.jsdelivr.net/gh/HarishReddy-543/Signature_Forgery_Detection@main/backend/dataset";
+const RAW_BASE = "https://raw.githubusercontent.com/HarishReddy-543/Signature_Forgery_Detection/main/backend/dataset";
+
+interface ManifestData {
+  total: number;
+  genuineCount: number;
+  forgedCount: number;
+  genuine: string[];
+  forged: string[];
+}
+
+const data = manifest as ManifestData;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const type = searchParams.get("type") || "all"; // genuine | forged | all
-  const page = parseInt(searchParams.get("page") || "1");
-  const perPage = parseInt(searchParams.get("per_page") || "20");
+  const type = searchParams.get("type") || "all"; // 'genuine' | 'forged' | 'all'
+  const personFilter = searchParams.get("person"); // e.g. '1', '2'
+  const search = (searchParams.get("search") || "").trim().toLowerCase();
+  const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
+  const perPage = Math.min(100, Math.max(12, parseInt(searchParams.get("per_page") || "24")));
 
-  const genuineDir = path.join(process.cwd(), "public", "dataset", "genuine");
-  const forgedDir = path.join(process.cwd(), "public", "dataset", "forged");
+  const genuineList = data.genuine.map((filename) => {
+    // filename format: original_X_Y.png
+    const match = filename.match(/original_(\d+)_(\d+)\.png/);
+    const person = match ? parseInt(match[1]) : 0;
+    const sample = match ? parseInt(match[2]) : 0;
+    return {
+      filename,
+      type: "genuine" as const,
+      person,
+      sample,
+      label: `Person ${person} — Sample ${sample} (Genuine)`,
+      url: `${CDN_BASE}/genuine/${filename}`,
+      fallbackUrl: `${RAW_BASE}/genuine/${filename}`,
+    };
+  });
 
-  let genuineFiles: string[] = [];
-  let forgedFiles: string[] = [];
+  const forgedList = data.forged.map((filename) => {
+    // filename format: forgeries_X_Y.png
+    const match = filename.match(/forgeries_(\d+)_(\d+)\.png/);
+    const person = match ? parseInt(match[1]) : 0;
+    const sample = match ? parseInt(match[2]) : 0;
+    return {
+      filename,
+      type: "forged" as const,
+      person,
+      sample,
+      label: `Person ${person} — Forgery ${sample} (Forged)`,
+      url: `${CDN_BASE}/forged/${filename}`,
+      fallbackUrl: `${RAW_BASE}/forged/${filename}`,
+    };
+  });
 
-  try {
-    if (fs.existsSync(genuineDir)) {
-      genuineFiles = fs
-        .readdirSync(genuineDir)
-        .filter((f) => f.endsWith(".png") || f.endsWith(".jpg"))
-        .map((f) => `/dataset/genuine/${f}`);
-    }
-  } catch (_) {}
-
-  try {
-    if (fs.existsSync(forgedDir)) {
-      forgedFiles = fs
-        .readdirSync(forgedDir)
-        .filter((f) => f.endsWith(".png") || f.endsWith(".jpg"))
-        .map((f) => `/dataset/forged/${f}`);
-    }
-  } catch (_) {}
-
-  const genuineItems = genuineFiles.map((url) => ({
-    url,
-    type: "genuine",
-    filename: path.basename(url),
-    label: `Genuine — ${path.basename(url).replace("original_", "Person ").replace(".png", "")}`,
-  }));
-
-  const forgedItems = forgedFiles.map((url) => ({
-    url,
-    type: "forged",
-    filename: path.basename(url),
-    label: `Forged — ${path.basename(url).replace("forgeries_", "Person ").replace(".png", "")}`,
-  }));
-
-  let all =
+  let items =
     type === "genuine"
-      ? genuineItems
+      ? genuineList
       : type === "forged"
-      ? forgedItems
-      : [...genuineItems, ...forgedItems];
+      ? forgedList
+      : [...genuineList, ...forgedList];
 
-  const total = all.length;
-  const totalPages = Math.ceil(total / perPage);
-  const start = (page - 1) * perPage;
-  const items = all.slice(start, start + perPage);
+  // Optional person filter
+  if (personFilter) {
+    const pNum = parseInt(personFilter);
+    if (!isNaN(pNum)) {
+      items = items.filter((it) => it.person === pNum);
+    }
+  }
+
+  // Optional search filter
+  if (search) {
+    items = items.filter(
+      (it) =>
+        it.filename.toLowerCase().includes(search) ||
+        it.label.toLowerCase().includes(search) ||
+        `person ${it.person}`.includes(search)
+    );
+  }
+
+  const total = items.length;
+  const totalPages = Math.ceil(total / perPage) || 1;
+  const startIndex = (page - 1) * perPage;
+  const paginatedItems = items.slice(startIndex, startIndex + perPage);
 
   return NextResponse.json({
-    items,
+    items: paginatedItems,
     total,
-    page,
     totalPages,
+    page,
     perPage,
-    genuineCount: genuineItems.length,
-    forgedCount: forgedItems.length,
+    datasetStats: {
+      total: data.total,
+      genuineCount: data.genuineCount,
+      forgedCount: data.forgedCount,
+      totalSigners: 55,
+      samplesPerSigner: 24,
+    },
   });
 }

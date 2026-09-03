@@ -280,13 +280,21 @@ This report is generated for forensic audit purposes.
 
                   <TabsContent value="dataset" className="mt-0">
                     <DatasetBrowser
-                      onSelectSignature={(file, preview, type) => {
+                      onSelectTarget={(file, preview) => {
                         handleSignatureSelect(file, preview);
-                        toast.success(`Loaded ${type === "genuine" ? "Genuine" : "Forged"} Signature`, {
-                          description: `${file.name} — tap "Initialize Analysis" to verify`
+                        toast.success("Loaded Target Signature", {
+                          description: `${file.name} set as suspect target.`
                         });
                       }}
-                      selectedFilename={signatureFile?.name || null}
+                      onSelectReference={(file, preview) => {
+                        handleReferenceSelect(file, preview);
+                        toast.success("Loaded Reference Signature", {
+                          description: `${file.name} set as genuine gold anchor.`
+                        });
+                      }}
+                      selectedTargetName={signatureFile?.name || null}
+                      selectedReferenceName={referenceFile?.name || null}
+                      isCompareMode={isCompareMode}
                     />
                   </TabsContent>
 
