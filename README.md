@@ -1,204 +1,327 @@
-# 🖋️ VeriSign AI — Signature Forgery Detection & Forensic Authentication
+# 🖋️ VeriSign AI — Signature Forgery Detection & Forensic Authentication Platform
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=flat&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2-blue?style=flat&logo=react)](https://react.dev/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-ResNet--18-EE4C2C?style=flat&logo=pytorch)](https://pytorch.org/)
-[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
-[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_Production-000000?style=flat&logo=vercel)](https://signature-forgery-detection-delta.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-ResNet--18-EE4C2C?style=for-the-badge&logo=pytorch)](https://pytorch.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-Computer_Vision-5C3EE8?style=for-the-badge&logo=opencv)](https://opencv.org/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_Production-000000?style=for-the-badge&logo=vercel)](https://signature-forgery-detection-delta.vercel.app)
 
-An enterprise-grade, deep learning and computer-vision powered **Signature Forgery Detection System**. The platform leverages a **Hybrid Siamese ResNet-18 Neural Network** coupled with classical forensic feature extraction (Harris Keypoints, Stroke Geometry, Skeletonization, and Pressure Pattern Analysis) to detect skilled, unskilled, and disguised signature forgeries with high confidence.
+An enterprise-grade, hybrid deep learning and computer vision forensic platform designed to authenticate signatures and detect skilled, unskilled, and disguised signature forgeries in real time.
 
-🌐 **Live Production Demo**: [https://signature-forgery-detection-delta.vercel.app](https://signature-forgery-detection-delta.vercel.app)
+🌐 **Live Production Website**: [https://signature-forgery-detection-delta.vercel.app](https://signature-forgery-detection-delta.vercel.app)  
+🐙 **GitHub Repository**: [https://github.com/HarishReddy-543/Signature_Forgery_Detection](https://github.com/HarishReddy-543/Signature_Forgery_Detection)
 
 ---
 
 ## 📑 Table of Contents
 
-- [Key Features](#-key-features)
-- [Architecture & Tech Stack](#-architecture--tech-stack)
-- [System Architecture Flow](#-system-architecture-flow)
-- [Screenshots & Modules](#-modules--pages)
-- [API Reference](#-api-reference)
-- [Quick Start & Local Setup](#-quick-start--local-setup)
-- [Production Deployment](#-production-deployment)
-- [Environment Variables](#-environment-variables)
-- [Troubleshooting](#-troubleshooting)
-- [License](#-license)
+1. [Executive Summary](#-executive-summary)
+2. [Complete 2,640 Dataset Explorer](#-complete-2640-dataset-explorer)
+3. [All Interfaces & Modules](#-all-interfaces--modules)
+   - [1. Landing Page (`/`)](#1-landing-page-)
+   - [2. Sign In Portal (`/login`)](#2-sign-in-portal-login)
+   - [3. Command Dashboard (`/dashboard`)](#3-command-dashboard-dashboard)
+   - [4. Signature Verification Studio (`/verify`)](#4-signature-verification-studio-verify)
+   - [5. Analytics Intelligence (`/analytics`)](#5-analytics-intelligence-analytics)
+   - [6. System Settings (`/settings`)](#6-system-settings-settings)
+4. [Forensic Options & Features](#-forensic-options--features)
+5. [System Architecture & Hybrid AI Pipeline](#-system-architecture--hybrid-ai-pipeline)
+6. [Complete REST API Specification](#-complete-rest-api-specification)
+7. [Comprehensive Tech Stack](#-comprehensive-tech-stack)
+8. [Local Installation & Quick Start](#-local-installation--quick-start)
+9. [Production & Cloud Deployment](#-production--cloud-deployment)
+10. [Troubleshooting](#-troubleshooting)
+11. [License](#-license)
 
 ---
 
-## ✨ Key Features
+## 📌 Executive Summary
 
-### 🔍 Forensic Verification Engine
-- **Single Mode Verification**: Analyzes a suspect signature against a pre-indexed vector knowledge base of genuine and forged signatures.
-- **1-to-1 Comparison Mode**: Upload a suspect signature side-by-side with a master genuine reference signature for instant differential analysis.
-- **Biometric Signature Capture**: Draw or sign directly on an in-browser biometric canvas with pressure-sensitive stroke simulation.
+Signature verification in financial, legal, and governmental sectors faces a critical challenge: skilled forgers often replicate the macro-geometry of a name while failing subtle biomechanical patterns such as micro-tremors, stroke velocity profiles, corner distributions, and topological pressure.
+
+**VeriSign AI** addresses this challenge through a **Dual-Stream Hybrid Architecture (v6.0)**:
+1. **Deep Metric Stream**: A Siamese Convolutional Neural Network with a ResNet-18 backbone pre-trained and fine-tuned using Contrastive Loss to project signature structures into an invariant embedding metric space.
+2. **Handcrafted Forensic Stream**: Classical computer vision algorithms extracting Harris corner keypoints, topological skeleton graphs, stroke density variance, and pressure gradients.
+
+---
+
+## 📂 Complete 2,640 Dataset Explorer
+
+The system includes a pre-indexed dataset of **2,640 real signatures** accessible directly from the cloud UI without needing to upload files from your local disk or phone gallery:
+
+| Metric | Value |
+|--------|-------|
+| **Total Signatures** | **2,640** signatures |
+| **Genuine Signatures** | **1,320** authentic signatures (`original_1_1.png` to `original_55_24.png`) |
+| **Forged Signatures** | **1,320** skilled & unskilled forgeries (`forgeries_1_1.png` to `forgeries_55_24.png`) |
+| **Total Individual Signers** | **55 unique people** |
+| **Samples per Signer** | **24 Genuine + 24 Forged** per person |
+| **Delivery Mechanism** | High-speed global edge CDN with automated GitHub Raw fallback |
+
+### Dataset Browser Capabilities:
+- **Signer Dropdown Filter**: Filter immediately by any individual signer (Person 1 through Person 55).
+- **Type Toggle**: View `All (2,640)`, `Genuine (1,320)`, or `Forged (1,320)`.
+- **Search Bar**: Instant keyword and filename search.
+- **1-Tap Assignment**: Tap **"Select Target"** to assign as the suspect signature, or tap **"Set as Reference"** in Compare Mode to assign as the gold reference.
+
+---
+
+## 🖥️ All Interfaces & Modules
+
+### 1. Landing Page (`/`)
+- **Interactive 3D Hero**: Parallax mouse-tracking with visual depth and responsive cards.
+- **Real-Time Operational Indicators**: Live latency indicator (1.2s), dataset counter (2,640), and model accuracy readout (98.2%).
+- **Feature Showcase**: Interactive cards explaining Siamese neural networks, gradient heatmaps, and tamper-proof SHA-256 audit logging.
+- **Direct Navigation**: One-click access to Start Verification, View Analytics, or access Documentation.
+
+### 2. Sign In Portal (`/login`)
+- **Enterprise Authentication UI**: Secure form supporting enterprise accounts with password visibility toggle.
+- **Session Protection**: Simulated AES-256 encrypted session tokens.
+- **Demo Access**: Instant single-click authentication for audit demonstration.
+
+### 3. Command Dashboard (`/dashboard`)
+- **Top Metric Cards**:
+  - **Total Signatures**: 2,640 dataset size with percentage tracking.
+  - **Genuine Signatures**: 1,320 stored authentic baselines.
+  - **Forged Signatures**: 1,320 detected fraud patterns.
+  - **Processing Latency**: ~1.2s average inference speed.
+- **Live Accuracy Trends**: Recharts time-series graph tracking model confidence and accuracy moving averages.
+- **Recent Audit Activity Feed**: Chronological log of recent signature verifications with pass/fail verdict badges, confidence percentages, and timestamps.
+- **Full History Audit Table**: Expandable table listing verification IDs, document tags, dates, confidence scores, and verifier departments.
+
+### 4. Signature Verification Studio (`/verify`)
+The primary forensic analysis laboratory containing all verification options:
+- **Mode Switcher**:
+  - **Single Mode**: Evaluates 1 suspect signature against pre-indexed vector embeddings across the entire 2,640-signature database.
+  - **Compare Mode (1-to-1)**: Uploads or selects a Suspect Signature side-by-side with a Master Reference Signature for differential forensic examination.
+- **Three Input Methods**:
+  - **`Dataset` Tab**: Browse all 2,640 signatures with pagination and 1-tap load.
+  - **`Upload` Tab**: Traditional file drag-and-drop or device gallery upload.
+  - **`Draw` Tab (Biometric Canvas)**: In-browser canvas pad for mouse, stylus, or touch signature drawing with dynamic stroke width simulation.
 - **Forensic Viewports**:
-  - **Neural Heatmap / Saliency Map**: Visualizes anomalous strokes, suspicious tremors, or unnatural pressure concentrations.
-  - **Ghost Overlay**: Semi-transparent layer-stacking view to directly inspect geometrical discrepancies between reference and suspect signatures.
-- **Forensic Laboratory Filters**: Pre-process noisy or low-contrast scans with noise reduction, stroke contrast enhancement, and morphological skeletonization.
-- **Audit Reports**: Export downloadable forensic audit reports containing cryptographic hashes, feature metrics, and confidence intervals.
+  - **Standard View**: High-resolution inspect view with clear/re-upload controls.
+  - **Neural Heatmap (Saliency Map)**: Gradient visualizer overlaying red/yellow/green intensity zones highlighting anomalous tremors or unnatural stroke deviations.
+  - **Ghost Overlay**: Semi-transparent layer-stacking mode to directly compare reference and suspect geometry.
+- **Forensic Lab Preprocessing Filters**:
+  - *Contrast Enhancement*: Increases stroke differentiation from background paper.
+  - *Noise Removal*: Gaussian / bilateral filtering removing paper grain and speckles.
+  - *Skeletonization*: Thins strokes to 1-pixel topological medians.
+- **Audit Verification Report**:
+  - Overall verdict (`Genuine` vs `Forged` or `Match` vs `No Match`).
+  - Calibrated confidence percentage (e.g. 98.2%).
+  - Sub-scores: Stroke Consistency, Pressure Pattern, Geometry Match, Spatial Relations.
+  - Cryptographic SHA-256 Notarization Hash.
+  - JSON Audit Report Download button.
+- **On-Demand Model Retraining Panel**:
+  - Trigger model fine-tuning directly from the UI.
+  - Configurable Epochs (1–50) and Batch Sizes (4–64).
+  - Live progress bar and training loss curve visualization.
 
-### 📊 Real-Time Analytics & Dashboard
-- **Interactive Metrics**: Real-time stats on total dataset size, genuine vs. forged distributions, and average inference latency (~1.2s).
-- **Time-Series Charts**: Recharts-powered graphs for hourly query volume and weekly accuracy trends.
-- **Live Activity Feed**: Instant audit trail of recent verification runs with timestamps and authenticity verdicts.
+### 5. Analytics Intelligence (`/analytics`)
+- **Key Forensic KPIs**:
+  - Model Accuracy: **98.2%**
+  - Precision: **97.9%**
+  - False Positive Rate: **0.4%**
+  - Latency: **1.2s**
+- **Hourly Verification Volume Chart**: Hourly throughput curve tracking query density.
+- **Weekly Breakdown Chart**: Bar chart illustrating genuine vs. forged verifications per day.
+- **Authenticity Ratio Ring**: Pie distribution showing 88.7% genuine vs. 11.3% forged detection.
 
-### 🧠 Incremental Retraining System
-- Trigger background model calibration and feature caching directly from the UI.
-- Configure epochs and batch sizes with live progress tracking and loss curve visualization.
-
-### 📱 100% Responsive Design
-- Built for mobile, tablet, and desktop screens with an accessible slide-out navigation drawer (`Sheet`) and touch-optimized controls.
+### 6. System Settings (`/settings`)
+- **Organization Profile**: Enterprise tenant details, contact emails, and logo configuration.
+- **Security & 2FA**: Two-factor authentication toggles and session lifetime controls.
+- **API Key Management**: Generate, revoke, and manage REST API keys for headless programmatic integration.
+- **Webhook Subscriptions**: Configure automated HTTP callbacks on forgery detection.
+- **Model Sensitivity Sliders**: Fine-tune classification thresholds between conservative and aggressive fraud rejection.
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🔬 Forensic Options & Features
 
-| Component | Technologies Used |
-|-----------|-------------------|
-| **Frontend UI** | [Next.js 16](https://nextjs.org/) (App Router, Turbopack), [React 19](https://react.dev/), [TypeScript](https://www.typescriptlang.org/) |
-| **Styling & Icons** | [Tailwind CSS v4](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/), [Lucide React](https://lucide.dev/), [Radix UI](https://www.radix-ui.com/) |
-| **Data Visualization** | [Recharts](https://recharts.org/), [Sonner](https://sonner.emilkowal.ski/) Toasts |
-| **Backend API** | [FastAPI](https://fastapi.tiangolo.com/), [Uvicorn](https://www.uvicorn.org/), Python 3.11+ |
-| **Machine Learning** | [PyTorch](https://pytorch.org/) (Siamese ResNet-18), [Torchvision](https://pytorch.org/vision/) |
-| **Computer Vision** | [OpenCV (opencv-python-headless)](https://opencv.org/), [scikit-image](https://scikit-image.org/), [Pillow (PIL)](https://pillow.readthedocs.io/), [NumPy](https://numpy.org/) |
-| **Deployment** | [Vercel](https://vercel.com/) (Frontend), [Docker](https://www.docker.com/) & Docker Compose (Full Stack) |
+| Option / Feature | Location | Purpose |
+|------------------|----------|---------|
+| **Single Verification** | `/verify` Mode toggle | Classifies suspect against stored vector knowledge base. |
+| **1-to-1 Differential Compare** | `/verify` Mode toggle | Direct pairwise metric distance between suspect and reference. |
+| **Dataset Browser** | `/verify` (Dataset tab) | Access and test all 2,640 signatures without uploading files. |
+| **Biometric Signature Pad** | `/verify` (Draw tab) | Sign directly on touchscreen or mouse with velocity simulation. |
+| **Neural Saliency Heatmap** | `/verify` Results view | Pinpoints local regions of hesitation, tremor, or mismatch. |
+| **Ghost Overlay View** | `/verify` Results view | Superimposes suspect on reference with transparency slider. |
+| **Laboratory Filters** | `/verify` Lab panel | Applies contrast boost, denoising, or morphological skeletonization. |
+| **SHA-256 Notarization** | `/verify` Results card | Generates immutable cryptographic audit hash for legal defense. |
+| **Audit Report Export** | `/verify` Results card | Downloads machine-readable JSON forensic verification dossier. |
+| **Incremental Retraining** | `/verify` Training tab | Calibrates neural weights on new signature samples from the UI. |
 
 ---
 
-## 📐 System Architecture Flow
+## 📐 System Architecture & Hybrid AI Pipeline
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│               Client Browser / Mobile                  │
-│       (Next.js 16 + React 19 + Tailwind CSS)           │
+│               Client Interface / Mobile                │
+│       (Next.js 16 + React 19 + Tailwind CSS v4)        │
 └───────────────────────────┬────────────────────────────┘
                             │ HTTP POST (Multipart Form)
                             ▼
 ┌────────────────────────────────────────────────────────┐
-│                   FastAPI Backend                      │
-│                 (Port 8090 / Cloud)                    │
+│            FastAPI Backend / Cloud Serverless          │
+│                  (Port 8090 / Vercel)                  │
 ├────────────────────────────────────────────────────────┤
-│  1. Image Ingestion & Validation                       │
-│  2. Noise Removal & Aspect-Preserving Normalization    │
-│  3. Feature Extraction:                                │
-│     ├── Deep Embeddings: Siamese ResNet-18 Backbone    │
-│     └── Handcrafted: Stroke Geometry, Harris Corners,  │
-│                      Skeleton, Density & Pressure      │
-│  4. Pairwise Distance & Confidence Calibration         │
-│  5. Dynamic Heatmap Generation (Gradient Saliency)     │
+│  1. Ingestion & Validation                             │
+│     ├── MIME type check, byte verification             │
+│     └── Color-to-grayscale / aspect ratio preserve     │
+│                                                        │
+│  2. Dual Feature Extraction                            │
+│     ├── Deep Siamese ResNet-18 Stream:                 │
+│     │   └── 512-dimensional embedding vector           │
+│     └── Classical Forensic Vision Stream:              │
+│         ├── Harris Corner & Keypoint Density           │
+│         ├── Stroke Geometry & Aspect Ratio             │
+│         ├── Morphological Skeletonization              │
+│         └── Pressure & Intensity Variance              │
+│                                                        │
+│  3. Metric Distance & Classification                   │
+│     ├── Pairwise Euclidean Distance in metric space    │
+│     ├── Weighted fusion of neural & visual features    │
+│     └── Sigmoid confidence calibration                 │
+│                                                        │
+│  4. Artifact Generation                                │
+│     ├── Gradient saliency heatmap coordinates          │
+│     └── SHA-256 cryptographic notarization hash        │
 └───────────────────────────┬────────────────────────────┘
                             │
                             ▼
-        { result: "Genuine" | "Forged", confidence: 98.2%, ... }
+     { "result": "Genuine", "confidence": 98.2, "details": {...} }
 ```
 
 ---
 
-## 💻 Modules & Pages
+## 📡 Complete REST API Specification
 
-- **Landing Page (`/`)**: 3D interactive hero presentation with real-time parallax mouse-tracking and metric highlights.
-- **Sign In (`/login`)**: Enterprise authentication portal with AES-256 session encryption UI.
-- **Dashboard (`/dashboard`)**: Comprehensive command center showing verification volume, processing speed, accuracy trends, and recent audits.
-- **Verify Signature (`/verify`)**: Dual-mode upload, biometric drawing pad, neural heatmap viewport, ghost overlay, forensic filters, and report export.
-- **Analytics (`/analytics`)**: Deep dive into model precision, false positive rates, hourly throughput, and genuine vs. forged distributions.
-- **Settings (`/settings`)**: Organization profiles, two-factor authentication, API key generation, webhooks, and threshold sensitivity controls.
+### 1. Dataset & Signatures
+- **`GET /api/dataset`**
+  - Query params: `type` (`all` | `genuine` | `forged`), `person` (`1`-`55`), `search` (string), `page` (number), `per_page` (number).
+  - Returns paginated list of signature objects with CDN URLs, signer metadata, and total counts.
 
----
-
-## 📡 API Reference
-
-The FastAPI backend exposes the following RESTful endpoints:
-
-### Health & Diagnostics
-- `GET /health`: Returns server status, loaded model weights state, PID, and port.
-
-### Signature Verification
-- `POST /api/verify`:
-  - Form parameters:
-    - `signature`: Target signature image file (required).
-    - `reference`: Master genuine signature file (optional, for 1-to-1 compare mode).
+### 2. Signature Verification
+- **`POST /api/verify`**
+  - Form data:
+    - `signature`: Target suspect image file (required).
+    - `reference`: Master genuine image file (optional, for 1-to-1 comparison).
   - Returns:
     ```json
     {
-      "result": "genuine",
+      "result": "Genuine",
       "confidence": 98.2,
+      "heatmap": [
+        { "x": 35, "y": 42, "intensity": 0.28, "radius": 24 }
+      ],
       "details": {
-        "stroke_consistency": 95.4,
-        "pressure_pattern": 94.1,
-        "geometry_match": 98.7,
-        "spatial_relation": 96.2,
-        "forensic_hash": "a1b2c3d4..."
-      },
-      "heatmap": [...]
+        "stroke_consistency": 96.8,
+        "pressure_pattern": 95.2,
+        "geometry_match": 98.4,
+        "spatial_relation": 97.1,
+        "forensic_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
     }
     ```
 
-### Image Filtering & Preprocessing
-- `POST /api/filter`:
-  - Form parameters: `image` (file), `filter_type` (`contrast` | `noise_removal`).
-  - Returns base64 filtered image.
+### 3. Image Filtering
+- **`POST /api/filter`**
+  - Form data: `image` (file), `filter_type` (`contrast` | `noise_removal`).
+  - Returns: Base64 data URL of processed signature scan.
 
-### Analytics & Training
-- `GET /api/stats`: Dashboard operational metrics.
-- `GET /api/analytics`: Model accuracy, precision, and historical distributions.
-- `GET /api/history`: Audit log of previous verification results.
-- `POST /api/train?epochs=5&batch_size=8`: Trigger background model fine-tuning.
-- `GET /api/train/status`: Check current training progress and loss curves.
+### 4. Metrics & Monitoring
+- **`GET /api/stats`**: Returns overall verifications count, genuine/forged counts, and average response latency.
+- **`GET /api/analytics`**: Returns model accuracy, precision, false positive rates, weekly distribution, and hourly volume.
+- **`GET /api/analytics/accuracy`**: Returns time-series accuracy moving averages for dashboard charts.
+- **`GET /api/history`**: Returns recent verification audit entries with timestamps and verdicts.
+
+### 5. On-Demand Training
+- **`POST /api/train`**: Initiates background retraining job with query parameters `epochs` and `batch_size`.
+- **`GET /api/train/status`**: Returns current training status, percentage completion, and epoch loss curves.
+- **`POST /api/train/reset`**: Resets training calibration state.
+
+### 6. Diagnostics
+- **`GET /health`**: Returns backend health, active model checkpoint status, process ID, and port.
 
 ---
 
-## 🚀 Quick Start & Local Setup
+## 🧰 Comprehensive Tech Stack
+
+| Layer | Technology | Version | Purpose |
+|-------|------------|---------|---------|
+| **Frontend Framework** | [Next.js](https://nextjs.org/) | 16.0 (App Router, Turbopack) | Server-side rendering, routing, static optimization |
+| **UI Library** | [React](https://react.dev/) | 19.2 | Component architecture, hooks, state management |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) | v4.0 | Responsive utility-first dark-mode design |
+| **Animations** | [Framer Motion](https://www.framer.com/motion/) | 12.0+ | Smooth page transitions, modals, parallax |
+| **UI Components** | [Radix UI](https://www.radix-ui.com/) | Primitives | Accessible sheets, dialogs, dropdowns, tabs |
+| **Icons** | [Lucide React](https://lucide.dev/) | Latest | Clean forensic and interface iconography |
+| **Charts** | [Recharts](https://recharts.org/) | 2.15 | Responsive time-series, area, and bar charts |
+| **Notifications** | [Sonner](https://sonner.emilkowal.ski/) | Latest | Interactive toast notifications |
+| **Backend API** | [FastAPI](https://fastapi.tiangolo.com/) | 0.100+ | Asynchronous high-performance REST API |
+| **ASGI Server** | [Uvicorn](https://www.uvicorn.org/) | Latest | ASGI web server for Python backend |
+| **Deep Learning** | [PyTorch](https://pytorch.org/) | 2.0+ | Siamese ResNet-18 neural architecture |
+| **Computer Vision** | [OpenCV](https://opencv.org/) | 4.8+ | Harris corners, skeletonization, filtering |
+| **Image Analysis** | [scikit-image](https://scikit-image.org/) / [PIL](https://pillow.readthedocs.io/) | Latest | Structural similarity, morphological operations |
+| **Numerical Processing** | [NumPy](https://numpy.org/) / [SciPy](https://scipy.org/) | Latest | Matrix transformations and distance metrics |
+| **Hosting (Frontend)** | [Vercel](https://vercel.com/) | Production | Edge serverless hosting with automatic SSL |
+| **CDN (Signatures)** | [jsDelivr](https://www.jsdelivr.com/) + GitHub Raw | Multi-region | Global CDN delivery of all 2,640 signatures |
+| **Containers** | [Docker](https://www.docker.com/) & Docker Compose | Multi-stage | Full-stack containerized deployment |
+
+---
+
+## 🚀 Local Installation & Quick Start
 
 ### Prerequisites
 - **Node.js**: v18.18+ or v20+
 - **Python**: v3.10, v3.11, or v3.12
 - **npm** or **pnpm**
+- **Git**
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/signature-forgery-detection.git
-cd signature-forgery-detection
+git clone https://github.com/HarishReddy-543/Signature_Forgery_Detection.git
+cd Signature_Forgery_Detection
 ```
 
-### 2. Set Up the Python Backend
+### 2. Set Up Python Backend
 ```bash
-# Create and activate virtual environment
+# Create virtual environment
 python -m venv .venv
-# On Windows:
+
+# Activate virtual environment
+# Windows:
 .venv\Scripts\activate
-# On Linux/macOS:
+# Linux/macOS:
 source .venv/bin/activate
 
 # Install backend dependencies
-pip install fastapi uvicorn torch torchvision pillow numpy opencv-python-headless scikit-image scipy python-multipart
+pip install -r backend/requirements.txt
 ```
 
-### 3. Set Up the Next.js Frontend
+### 3. Set Up Frontend
 ```bash
-# Install frontend dependencies
 npm install
 # or
 pnpm install
 ```
 
-### 4. Configure Environment
-Create a `.env.local` file in the root directory:
+### 4. Configure Environment (`.env.local`)
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8090
 ```
 
-### 5. Launch Both Servers
+### 5. Launch Servers
 
-#### On Windows (Automated Batch File):
-Double-click `RESTART_SERVERS.bat` or run:
+#### Option A: 1-Click Automated (Windows)
+Double-click [`RESTART_SERVERS.bat`](file:///d:/project/signature-forgery-detection/RESTART_SERVERS.bat) or run:
 ```cmd
 RESTART_SERVERS.bat
 ```
 
-#### Manually in Separate Terminals:
+#### Option B: Manual Terminals
 - **Terminal 1 (Backend)**:
   ```bash
   python -m uvicorn backend.main:app --reload --port 8090
@@ -208,52 +331,39 @@ RESTART_SERVERS.bat
   npm run dev
   ```
 
-Open your browser at **`http://localhost:3000`**!
+Open **`http://localhost:3000`** in your browser.
 
 ---
 
-## 🐳 Production Deployment
+## 🐳 Production & Cloud Deployment
 
-### Option 1: Docker Compose (Full Stack)
-Deploy both the Next.js frontend and FastAPI backend containers with one command:
-
+### 1. Docker Compose (Full Stack)
+Run both the Next.js frontend and FastAPI backend containers with one command:
 ```bash
 docker-compose up -d --build
 ```
 - Frontend: `http://localhost:3000`
 - Backend: `http://localhost:8090`
 
-### Option 2: Vercel (Frontend) + Cloud Container (Backend)
-1. **Frontend**: Deploy directly via Vercel CLI:
-   ```bash
-   vercel --prod
-   ```
-2. **Backend**: Host `Dockerfile.backend` on [Render](https://render.com/), [Railway](https://railway.app/), or [Hugging Face Spaces](https://huggingface.co/spaces).
-3. Set the `NEXT_PUBLIC_API_URL` variable in your Vercel project settings to point to your cloud backend URL.
-
----
-
-## ⚙️ Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_API_URL` | Base URL of the FastAPI backend service | `http://localhost:8090` |
-| `PYTHONIOENCODING` | Enforces UTF-8 character encoding for console output | `utf-8` |
-| `PORT` | Service port for backend server | `8090` |
+### 2. Vercel (Frontend)
+Deploy directly via Vercel CLI:
+```bash
+vercel --prod
+```
 
 ---
 
 ## 🔧 Troubleshooting
 
 - **Windows Console Unicode Errors**:
-  If Python fails with `UnicodeEncodeError` on Windows consoles, ensure `PYTHONIOENCODING=utf-8` is set before starting Uvicorn.
-- **CORS Errors**:
-  The FastAPI backend has CORS enabled for all origins (`allow_origins=["*"]`). If connecting from a custom domain, ensure `NEXT_PUBLIC_API_URL` is set without trailing slashes.
-- **Model Checkpoint Missing**:
-  The system automatically loads `backend/signature_model.pth` and `backend/features_cache.pth`. If these files are absent, the server will initialize with fallback ResNet-18 weights and index features dynamically.
+  If Python crashes on Windows with `UnicodeEncodeError`, ensure `PYTHONIOENCODING=utf-8` is set or run through `RESTART_SERVERS.bat` which handles console encoding automatically.
+- **CORS Configuration**:
+  FastAPI allows cross-origin requests by default. If using custom domains, ensure `NEXT_PUBLIC_API_URL` does not have a trailing slash.
+- **Dataset Image Loading**:
+  All 2,640 signatures load via jsDelivr CDN. If a regional network blocks jsDelivr, images automatically fall back to GitHub Raw CDN.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**. Feel free to use, modify, and distribute for personal and commercial projects.
+This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software for academic, personal, and commercial purposes.
