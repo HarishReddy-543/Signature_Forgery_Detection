@@ -12,10 +12,9 @@ import { SignatureHeatmap } from "@/components/verify/signature-heatmap";
 import { SignatureOverlay } from "@/components/verify/signature-overlay";
 import { ForensicFilters } from "@/components/verify/forensic-filters";
 import { BiometricCanvas } from "@/components/verify/biometric-canvas";
-import { DatasetBrowser } from "@/components/verify/dataset-browser";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Play, RotateCcw, Download, Share2, Loader2, Zap, Fingerprint, ShieldCheck, Database } from "lucide-react";
+import { Play, RotateCcw, Download, Share2, Loader2, Zap, Fingerprint, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 import { getApiUrl } from "@/lib/api-config";
@@ -262,66 +261,32 @@ This report is generated for forensic audit purposes.
                   </div>
                 </div>
 
-                <Tabs defaultValue="dataset" className="w-full">
-                  <TabsList className="bg-secondary/20 h-10 mb-4 p-1 flex overflow-x-auto">
-                    <TabsTrigger value="dataset" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
-                      <Database className="w-3 h-3" />
-                      Dataset
-                    </TabsTrigger>
+                <Tabs defaultValue="upload" className="w-full">
+                  <TabsList className="bg-secondary/20 h-10 mb-4 p-1">
                     <TabsTrigger value="upload" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
                       <Play className="w-3 h-3" />
-                      Upload
+                      Document Upload
                     </TabsTrigger>
                     <TabsTrigger value="biometric" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
                       <Fingerprint className="w-3 h-3" />
-                      Draw
+                      Biometric Capture
                     </TabsTrigger>
                   </TabsList>
-
-                  <TabsContent value="dataset" className="mt-0">
-                    <DatasetBrowser
-                      onSelectTarget={(file, preview) => {
-                        handleSignatureSelect(file, preview);
-                        toast.success("Loaded Target Signature", {
-                          description: `${file.name} set as suspect target.`
-                        });
-                      }}
-                      onSelectReference={(file, preview) => {
-                        handleReferenceSelect(file, preview);
-                        toast.success("Loaded Reference Signature", {
-                          description: `${file.name} set as genuine gold anchor.`
-                        });
-                      }}
-                      selectedTargetName={signatureFile?.name || null}
-                      selectedReferenceName={referenceFile?.name || null}
-                      isCompareMode={isCompareMode}
-                    />
-                  </TabsContent>
 
                   <TabsContent value="upload" className="mt-0">
                     <div className="grid gap-6 md:grid-cols-2">
                       <SignatureUpload
                         label="Verification Target (Suspect)"
-                        description="Drop, browse or tap a dataset sample below"
+                        description="Drag & drop or click to upload signature image"
                         onImageSelect={handleSignatureSelect}
                         preview={signaturePreview}
-                        sampleUrls={[
-                          { label: "Genuine Sample", url: "/samples/genuine-sample-1.png", filename: "original_1_1.png", color: "emerald" },
-                          { label: "Genuine Sample 2", url: "/samples/genuine-sample-2.png", filename: "original_1_2.png", color: "emerald" },
-                          { label: "Forged Sample", url: "/samples/forged-sample-1.png", filename: "forgeries_1_1.png", color: "rose" },
-                          { label: "Forged Sample 2", url: "/samples/forged-sample-2.png", filename: "forgeries_1_2.png", color: "rose" },
-                        ]}
                       />
                       {isCompareMode && (
                         <SignatureUpload
                           label="Master Reference (Genuine)"
-                          description="Gold-standard identity anchor — or tap a sample"
+                          description="Gold-standard identity anchor"
                           onImageSelect={handleReferenceSelect}
                           preview={referencePreview}
-                          sampleUrls={[
-                            { label: "Reference Anchor", url: "/samples/reference-sample.png", filename: "original_1_3.png", color: "blue" },
-                            { label: "Genuine Ref 2", url: "/samples/genuine-sample-2.png", filename: "original_1_2.png", color: "emerald" },
-                          ]}
                         />
                       )}
                     </div>
