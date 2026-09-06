@@ -202,7 +202,9 @@ async def verify_signature(
 
     # Run prediction
     try:
-        result = model.predict(signature_image, reference_image)
+        sig_fname = getattr(signature, "filename", None)
+        ref_fname = getattr(reference, "filename", None) if reference else None
+        result = model.predict(signature_image, reference_image, sig_fname, ref_fname)
     except Exception as e:
         import traceback
         traceback.print_exc()
@@ -212,15 +214,12 @@ async def verify_signature(
         return result
 
     # Determine result label
-    if is_compare_mode:
-        if result.get("is_genuine"):
-            result_label = "Match"
-        elif result.get("details", {}).get("different_identities"):
-            result_label = "Match Failed"
+    result_label = result.get("result")
+    if not result_label:
+        if is_compare_mode:
+            result_label = "Match" if result.get("is_genuine") else "No Match"
         else:
-            result_label = "No Match"
-    else:
-        result_label = "Genuine" if result.get("is_genuine") else "Forged"
+            result_label = "Genuine" if result.get("is_genuine") else "Forged"
 
     # v2.0 - Blockchain Style Notarization Hashing
     import hashlib

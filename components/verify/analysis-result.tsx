@@ -5,27 +5,11 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 interface AnalysisResultProps {
-  result: "genuine" | "forged" | "inconclusive" | null;
+  result: string | null;
   confidence: number;
   isAnalyzing: boolean;
-  details?: {
-    stroke_consistency?: number;
-    pressure_pattern?: number;
-    geometry_match?: number;
-    spatial_relation?: number;
-    strokeConsistency?: number;
-    pressurePattern?: number;
-    geometryMatch?: number;
-    spatialRelation?: number;
-    legacy_analysis?: {
-      harris_corners: number;
-      surf_keypoints: number;
-      hybrid_match_score?: number;
-    };
-    method?: string;
-    forensic_explanation?: string;
-    is_comparison?: boolean;
-  };
+  details?: any;
+  isCompareMode?: boolean;
 }
 
 export function AnalysisResult({
@@ -33,6 +17,7 @@ export function AnalysisResult({
   confidence,
   isAnalyzing,
   details,
+  isCompareMode = false,
 }: AnalysisResultProps) {
   if (isAnalyzing) {
     return (
@@ -71,24 +56,51 @@ export function AnalysisResult({
     );
   }
 
-  const isComparison = details?.is_comparison ?? (!!details?.legacy_analysis?.hybrid_match_score || details?.method?.includes("Comparison"));
+  const isComparison = isCompareMode || details?.is_comparison || result?.toLowerCase().includes("match");
 
   const resultsMap: Record<string, string> = {
-    "match": "genuine",
-    "match failed": "inconclusive",
-    "no match": "forged",
+    "match": "match",
+    "match failed": "match_failed",
+    "no match": "no_match",
     "genuine": "genuine",
     "forged": "forged",
     "inconclusive": "inconclusive"
   };
 
-  const normalizedResult = (resultsMap[result?.toLowerCase()] || "inconclusive") as keyof typeof config;
+  const normalizedResult = resultsMap[result?.toLowerCase()] || (isComparison ? "no_match" : "forged");
 
-  const config = {
+  const config: Record<string, any> = {
+    match: {
+      icon: CheckCircle2,
+      label: "Match",
+      desc: "Verified: Both signatures correlate and align with authentic profile",
+      color: "text-green-500",
+      barColor: "bg-green-500",
+      glow: "bg-green-500/20",
+      border: "border-green-500/20"
+    },
+    match_failed: {
+      icon: AlertTriangle,
+      label: "Match Failed",
+      desc: "Discrepancy: One signature is genuine while the other is a forgery of the same name",
+      color: "text-orange-500",
+      barColor: "bg-orange-500",
+      glow: "bg-orange-500/20",
+      border: "border-orange-500/20"
+    },
+    no_match: {
+      icon: XCircle,
+      label: "No Match",
+      desc: "Critical divergence: Signatures belong to different persons or forgery profiles",
+      color: "text-red-500",
+      barColor: "bg-red-500",
+      glow: "bg-red-500/20",
+      border: "border-red-500/20"
+    },
     genuine: {
       icon: CheckCircle2,
-      label: isComparison ? "Match" : "Genuine Signature",
-      desc: isComparison ? "Successfully verified against reference" : "Confidence threshold passed",
+      label: "Genuine Signature",
+      desc: "Confidence threshold passed — fluid curves and authentic stroke velocity",
       color: "text-green-500",
       barColor: "bg-green-500",
       glow: "bg-green-500/20",
@@ -96,8 +108,8 @@ export function AnalysisResult({
     },
     forged: {
       icon: XCircle,
-      label: isComparison ? "No Match" : "Forged Signature",
-      desc: isComparison ? "Critical deviations from reference detected" : "Anomalies detected in signature",
+      label: "Forged Signature",
+      desc: "Anomalies detected in stroke velocity, pen pressure, and localized micro-tremors",
       color: "text-red-500",
       barColor: "bg-red-500",
       glow: "bg-red-500/20",
@@ -105,8 +117,8 @@ export function AnalysisResult({
     },
     inconclusive: {
       icon: AlertTriangle,
-      label: isComparison ? "Match Failed" : "Inconclusive Result",
-      desc: isComparison ? "Forensic Signature Discrepancy detected" : "Ambiguous forensic patterns",
+      label: "Inconclusive Result",
+      desc: "Ambiguous forensic patterns requiring secondary physical document inspection",
       color: "text-orange-500",
       barColor: "bg-orange-500",
       glow: "bg-orange-500/20",
@@ -193,9 +205,9 @@ export function AnalysisResult({
           animate={{ y: 0, opacity: 1 }}
           className={cn(
             "mb-8 p-5 rounded-2xl border relative group",
-            normalizedResult === "genuine"
+            (normalizedResult === "genuine" || normalizedResult === "match")
               ? "border-green-500/20 bg-green-500/5"
-              : normalizedResult === "forged"
+              : (normalizedResult === "forged" || normalizedResult === "no_match")
               ? "border-red-500/20 bg-red-500/5"
               : "border-orange-500/20 bg-orange-500/5"
           )}
@@ -205,9 +217,9 @@ export function AnalysisResult({
           </div>
           <h5 className={cn(
             "text-[11px] font-black uppercase tracking-[0.2em] mb-2.5 flex items-center gap-2",
-            normalizedResult === "genuine"
+            (normalizedResult === "genuine" || normalizedResult === "match")
               ? "text-green-400"
-              : normalizedResult === "forged"
+              : (normalizedResult === "forged" || normalizedResult === "no_match")
               ? "text-red-400"
               : "text-orange-400"
           )}>
@@ -215,9 +227,9 @@ export function AnalysisResult({
             Forensic Verdict Analysis
           </h5>
           <p className="text-sm font-bold text-white/90 leading-relaxed italic">
-            "{details?.forensic_explanation || (normalizedResult === "genuine"
+            "{details?.forensic_explanation || ((normalizedResult === "genuine" || normalizedResult === "match")
               ? "Signature verified as authentic. Stroke trajectory, pressure gradients, and curvature velocity match genuine baseline patterns."
-              : "Signature classified as forged. Anomalies detected in stroke acceleration, pen pressure, and localized micro-tremors.")}"
+              : "Signature classified as non-matching or forged. Anomalies detected in stroke acceleration, pen pressure, and localized micro-tremors.")}"
           </p>
           <div className="mt-3.5 pt-3 border-t border-white/5 flex items-center justify-between text-[9px] font-black text-white/30 uppercase tracking-widest">
             <span className="flex items-center gap-1.5">
@@ -230,7 +242,7 @@ export function AnalysisResult({
       )}
 
       {/* Forensic Difference Digest (Structural Breakdown for Forgeries & Failed Matches) */}
-      {(normalizedResult === "forged" || normalizedResult === "inconclusive" || result?.toLowerCase().includes("fail") || result?.toLowerCase().includes("no match")) && (
+      {(normalizedResult === "forged" || normalizedResult === "no_match" || normalizedResult === "match_failed" || normalizedResult === "inconclusive" || result?.toLowerCase().includes("fail") || result?.toLowerCase().includes("no match")) && (
         <div className="mb-8 p-5 rounded-xl border border-red-500/15 bg-red-500/5 space-y-3">
           <h5 className="text-[11px] font-black text-red-400 uppercase tracking-widest flex items-center gap-2">
             <ShieldAlert className="w-3.5 h-3.5 text-red-500" />

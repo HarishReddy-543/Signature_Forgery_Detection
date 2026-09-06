@@ -20,9 +20,9 @@ export async function POST(request: Request) {
     if (BACKEND_URL) {
       try {
         const backendFormData = new FormData();
-        backendFormData.append("signature", signature);
+        backendFormData.append("signature", signature, signature.name || "signature.png");
         if (reference) {
-          backendFormData.append("reference", reference);
+          backendFormData.append("reference", reference, reference.name || "reference.png");
         }
 
         const controller = new AbortController();

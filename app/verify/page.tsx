@@ -29,7 +29,7 @@ export default function VerifyPage() {
   const [isCompareMode, setIsCompareMode] = useState(false);
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [result, setResult] = useState<"genuine" | "forged" | "inconclusive" | null>(null);
+  const [result, setResult] = useState<string | null>(null);
   const [confidence, setConfidence] = useState<number>(0);
   const [heatmapRegions, setHeatmapRegions] = useState<any[]>([]);
   const [details, setDetails] = useState<any>(null);
@@ -132,7 +132,7 @@ export default function VerifyPage() {
             return;
           }
 
-          setResult(data.result.toLowerCase() as "genuine" | "forged" | "inconclusive");
+          setResult(data.result);
           setConfidence(data.confidence);
           setHeatmapRegions(data.heatmap || []);
           setDetails(data.details);
@@ -405,6 +405,7 @@ This report is generated for forensic audit purposes.
                 confidence={confidence}
                 isAnalyzing={isAnalyzing}
                 details={details ?? undefined}
+                isCompareMode={isCompareMode}
               />
 
               {result && (
